@@ -154,12 +154,13 @@ class GameClient {
     }
 
     const skippedPlayers = this.players.filter((player) => player.isSkipped);
+    const activePlayers = this.players.filter((player) => !player.isWon);
 
     if (
-      this.players.length - skippedPlayers.length === 1 &&
+      activePlayers.length === skippedPlayers.length &&
       this.players.some((player) => player.isWon)
     ) {
-      this.players.forEach((player) => (player.isSkipped = false));
+      this.reset();
     }
 
     for (let i = 0; i < this.players.length; i++) {
@@ -171,6 +172,16 @@ class GameClient {
 
       break;
     }
+
+    if (this.players.length - skippedPlayers.length === 1) {
+      this.reset();
+    }
+  }
+
+  reset() {
+    this.table = [];
+    this.players.map((player) => (player.isSkipped = false));
+    // console.log(this.players);
   }
 
   removeCards(cards, cardsHolder) {

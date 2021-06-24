@@ -189,6 +189,20 @@ describe("moves", () => {
     expect(player3Response.isClientEnd).toBeTruthy();
   });
 
+  it("should change player turn to who?", () => {
+    client.players[0].hand = [{ suit: "S", rank: "3" }];
+    client.players[1].hand = [{ suit: "S", rank: "3" }];
+
+    client.play([0], client.players[0].senderId);
+    client.passTurn(client.players[1]);
+    client.passTurn(client.players[2]);
+    client.passTurn(client.players[3]);
+
+    client.play([0], client.players[1].senderId);
+    client.passTurn(client.players[2]);
+    client.passTurn(client.players[3]);
+  });
+
   it("should chop sequence", () => {
     client.players[0].hand = [
       { suit: "D", rank: "4" },
